@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script type="text/babel" >
+        "use strict";
+
+       
+
+        const init = () => {
+
+            var socket = io.connect();
+            var updateThis = document.querySelector("#updateThis");
+            var value = 0;
+
+            window.setInterval(function(){
+
+                socket.emit('increase', {count: value});
+
+            }, 3000);
+
+          
+            socket.on('increase', (data)=>{
+
+                if(data.count){
+                    updateThis.innerHTML = data.count;
+                    value = data.count;
+                }
+            })
+        };
+
+
+        window.onload = init;
+    
+    </script>
+</head>
+<body>
+<p> Update this: <span id="updateThis"></span></p>
+</body>
+</html>
